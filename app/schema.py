@@ -1,4 +1,3 @@
-from database_service.mysql_database import MySQLDatabase
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, Integer, String
 
