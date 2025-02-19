@@ -4,19 +4,21 @@ from sqlalchemy.ext.declarative import declarative_base
 from pydantic import BaseModel
 from common.exceptions import NotFoundException
 
+Base = declarative_base()
+
 class MySQLDatabase:
-    instance = None
+    instance = {}
 
     def __init__(self, host: str):
         self.engine = create_engine(host)
         self.session = sessionmaker(bind=self.engine)()
-        self.base = declarative_base()
-        self.base.metadata.create_all(self.engine)
+    
+    @staticmethod
+    def get_instance(host: str) -> "MySQLDatabase":
+        if host not in MySQLDatabase.instance:
+            MySQLDatabase.instance[host] = MySQLDatabase(host)
+        return MySQLDatabase.instance[host]
 
-    def get_instance(host: str):
-        if MySQLDatabase.instance is None:
-            MySQLDatabase.instance = MySQLDatabase(host)
-        return MySQLDatabase.instance
 
     async def create_one(self, data: BaseModel, schema: DeclarativeBase):
         self.session.add(schema(**data.model_dump()))
