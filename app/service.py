@@ -4,7 +4,7 @@ class AppService:
         self.database_service = database_service or DatabaseService(None, None)
 
     async def get_one(self, id: str):
-        return self.database_service.get_one(id)
+        return await self.database_service.get_one(id)
     
     async def create_one(self, data: dict):
         return self.database_service.create_one(data)

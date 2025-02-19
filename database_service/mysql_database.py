@@ -1,20 +1,19 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
-import os
+
 class MySQLDatabase:
     instance = None
 
-    def __init__(self):
-        host = os.getenv("MYSQL_HOST")
+    def __init__(self, host: str):
         self.engine = create_engine(host)
         self.session = sessionmaker(bind=self.engine)()
         self.base = declarative_base()
         self.base.metadata.create_all(self.engine)
 
-    def get_instance():
+    def get_instance(host: str):
         if MySQLDatabase.instance is None:
-            MySQLDatabase.instance = MySQLDatabase()
+            MySQLDatabase.instance = MySQLDatabase(host)
         return MySQLDatabase.instance
 
     async def create_one(self, data: dict, schema):

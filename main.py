@@ -2,7 +2,7 @@ from fastapi import FastAPI, APIRouter
 from dotenv import load_dotenv
 from app.router import router as AppRouter
 
-async def lifespan(app, event):
+async def lifespan(app):
     load_dotenv()
     yield
 
