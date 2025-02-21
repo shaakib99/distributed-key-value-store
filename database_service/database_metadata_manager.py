@@ -8,13 +8,15 @@ class DatabaseMetadataManager:
     def __init__(self):
         self.databases = [
         {
-            "host": "mysql://root:root@localhost:3306/test",
+            "id": 1,
+            "host": "mysql://root:root@localhost:3306/app",
             "type": "mysql",
             "key_start": 1,
             "key_end": 1000
         },
         {
-            "host": "mysql://root:root@localhost:3307/test",
+            "id": 2,
+            "host": "mysql://root:root@localhost:3307/app",
             "type": "mysql",
             "key_start": 1001,
             "key_end": 2000

@@ -12,12 +12,18 @@ class MySQLDatabase:
     def __init__(self, host: str):
         self.engine = create_engine(host)
         self.session = sessionmaker(bind=self.engine)()
+        self.host = host
     
     @staticmethod
     def get_instance(host: str) -> "MySQLDatabase":
-        if host not in MySQLDatabase.instance:
-            MySQLDatabase.instance[host] = MySQLDatabase(host)
-        return MySQLDatabase.instance[host]
+        try:
+            if host not in MySQLDatabase.instance:
+                connection = MySQLDatabase(host)
+                connection.engine.connect()
+                MySQLDatabase.instance[host] = connection
+            return MySQLDatabase.instance[host]
+        except Exception as e:
+            raise Exception(f"Database connection error: {host}")
 
 
     async def create_one(self, data: BaseModel, schema: DeclarativeBase):

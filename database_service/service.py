@@ -14,6 +14,7 @@ class DatabaseService:
     
     async def get_one(self, id: str):
         database = self.database_metadata_manager.get_db(id)
+        print(database.host)
         return await database.get_one(id, self.schema)
     
     async def get_all(self, query: BaseModel):

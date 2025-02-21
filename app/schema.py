@@ -1,9 +1,7 @@
-from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, Integer, String
+from database_service.mysql_database import Base
 
-Base = declarative_base()
-
-class AppData(Base):
+class AppDataSchema(Base):
     __tablename__ = "app_data"
 
     id = Column(Integer, primary_key=True)

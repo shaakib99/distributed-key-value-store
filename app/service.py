@@ -1,7 +1,9 @@
 from database_service.service import DatabaseService
+from app.schema import AppDataSchema
+
 class AppService:
     def __init__(self, database_service: DatabaseService = None):
-        self.database_service = database_service or DatabaseService(None, None)
+        self.database_service = database_service or DatabaseService(AppDataSchema, None)
 
     async def get_one(self, id: str):
         return await self.database_service.get_one(id)
