@@ -12,14 +12,14 @@ class DatabaseMetadataManager:
             "host": "mysql://root:root@localhost:3306/app",
             "type": "mysql",
             "key_start": 1,
-            "key_end": 1000
+            "key_end": 3
         },
         {
             "id": 2,
             "host": "mysql://root:root@localhost:3307/app",
             "type": "mysql",
-            "key_start": 1001,
-            "key_end": 2000
+            "key_start": 4,
+            "key_end": 6
         }
     ]
 

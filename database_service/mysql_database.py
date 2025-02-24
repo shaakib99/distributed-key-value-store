@@ -38,17 +38,17 @@ class MySQLDatabase:
         return data
     
     async def get_all(self, query: BaseModel, schema: DeclarativeBase):
-        return {"message": "Hello World from MySQL database"}  
+        return self.session.query(schema).all()
     
     async def update_one(self, id: str, data: BaseModel, schema: DeclarativeBase):
-        data = self.get_one(id, schema)
-        for key, value in data.model_dump().items():
-                setattr(data, key, value)
+        db_data = await self.get_one(id, schema)
+        for key, value in data.model_dump(exclude_unset=True).items():
+                setattr(db_data, key, value)
         self.session.commit()
-        return data             
+        return db_data          
     
     async def delete_one(self, id: str, schema: DeclarativeBase):
-        data = self.get_one(id, schema)
+        data = await self.get_one(id, schema)
         self.session.delete(data)
         self.session.commit()
         return None

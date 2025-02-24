@@ -9,12 +9,11 @@ class DatabaseService:
     async def create_one(self, data: BaseModel):
         key = self.database_metadata_manager.get_key()
         database = self.database_metadata_manager.get_db(key)
-        setattr(data, "id", key)
+        data.id = key
         return await database.create_one(data, self.schema)
     
     async def get_one(self, id: str):
         database = self.database_metadata_manager.get_db(id)
-        print(database.host)
         return await database.get_one(id, self.schema)
     
     async def get_all(self, query: BaseModel):
@@ -22,7 +21,8 @@ class DatabaseService:
         result = []
         for database in databases:
             result.append(await database.get_all(query, self.schema))
-        result = sorted(result, key=lambda x: x["id"])
+        result = [item for sublist in result for item in sublist]
+        result = sorted(result, key=lambda x: x.id, reverse=True)
         return result
     
     async def update_one(self, id: str, data: BaseModel):
